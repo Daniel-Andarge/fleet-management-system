@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useTable } from 'react-table';
 import PropTypes from 'prop-types';
-import { Card, Modal, Button, Container, Row, Col } from 'react-bootstrap'; // Import React Bootstrap components
+import { Card, Modal, Button, Container, Row, Col } from 'react-bootstrap';
 
 const VehicleDashboard = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -11,9 +11,8 @@ const VehicleDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [editingVehicle, setEditingVehicle] = useState(null); // To track the vehicle being edited
+  const [editingVehicle, setEditingVehicle] = useState(null);
 
-  // Fetch vehicles from the API
   const fetchVehicles = async () => {
     setLoading(true);
     setError(null);
@@ -28,7 +27,6 @@ const VehicleDashboard = () => {
     }
   };
 
-  // Add a new vehicle
   const addVehicle = async () => {
     if (!vehicleName.trim() || !vehicleStatus.trim()) {
       setError('Both Vehicle Name and Status are required.');
@@ -52,7 +50,6 @@ const VehicleDashboard = () => {
     }
   };
 
-  // Update vehicle status
   const updateVehicle = async (id, newStatus) => {
     setLoading(true);
     setError(null);
@@ -69,19 +66,16 @@ const VehicleDashboard = () => {
     }
   };
 
-  // Handle opening modal for editing a vehicle
   const handleShowModal = (vehicle) => {
     setEditingVehicle(vehicle);
     setShowModal(true);
   };
 
-  // Handle closing modal
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingVehicle(null);
   };
 
-  // Save the changes made in the modal
   const handleSaveChanges = async () => {
     if (editingVehicle) {
       try {
@@ -92,8 +86,8 @@ const VehicleDashboard = () => {
             status: editingVehicle.status,
           }
         );
-        fetchVehicles(); // Refresh the vehicle list after editing
-        handleCloseModal(); // Close the modal
+        fetchVehicles();
+        handleCloseModal();
       } catch (err) {
         console.error('Error saving changes:', err);
         setError('Failed to save changes. Please try again later.');
@@ -101,7 +95,6 @@ const VehicleDashboard = () => {
     }
   };
 
-  // Columns for react-table
   const columns = React.useMemo(
     () => [
       {
@@ -143,7 +136,6 @@ const VehicleDashboard = () => {
     <div style={{ fontFamily: 'Arial, sans-serif' }}>
       <Container fluid>
         <Row>
-          {/* Main Content */}
           <Col xs={12} style={{ padding: '20px' }}>
             <h1>Vehicle Management Dashboard</h1>
 
@@ -152,7 +144,6 @@ const VehicleDashboard = () => {
               <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>
             )}
 
-            {/* Card to display total vehicles */}
             <Card style={{ marginBottom: '20px' }}>
               <Card.Body>
                 <Card.Title>Total Vehicles</Card.Title>
@@ -160,7 +151,6 @@ const VehicleDashboard = () => {
               </Card.Body>
             </Card>
 
-            {/* Add vehicle form */}
             <div style={{ marginBottom: '20px' }}>
               <input
                 type="text"
@@ -187,7 +177,6 @@ const VehicleDashboard = () => {
               </button>
             </div>
 
-            {/* Vehicle table */}
             {vehicles.length > 0 ? (
               <table
                 {...getTableProps()}
@@ -258,7 +247,6 @@ const VehicleDashboard = () => {
               !loading && <div>No vehicles available.</div>
             )}
 
-            {/* Modal for editing vehicle */}
             <Modal show={showModal} onHide={handleCloseModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Edit Vehicle</Modal.Title>
@@ -313,7 +301,6 @@ const VehicleDashboard = () => {
         </Row>
       </Container>
 
-      {/* Footer */}
       <footer
         style={{
           backgroundColor: '#f1f1f1',
@@ -329,7 +316,6 @@ const VehicleDashboard = () => {
   );
 };
 
-// StatusCell Component
 const StatusCell = ({ row }) => {
   return <>{row.original.status}</>;
 };
